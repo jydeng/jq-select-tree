@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jq-select-tree</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <ul id="treeDemo" class="ztree"></ul>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/zTree.v3/3.5.42/js/jquery.ztree.all.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/zTree.v3/3.5.42/js/jquery.ztree.exhide.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script>
+      // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+      // 初始化 √
+      // 默认赋值
+      // 赋值
+      // 选中反馈 √
+      // 过滤  √
+      // 清空  √
+      // 全选
+      let treeOption = {
+        check: {
+          enable: true,
+          chkStyle: "checkbox",
+        },
+        view: {
+          showIcon: false,
+        },
+      };
+      // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
+      let treeData = [
+        {
+          name: "test1",
+          id: "1",
+          children: [
+            { name: "test1_1", id: "1-1" },
+            { name: "test1_2", id: "1-2" },
+          ],
+        },
+        {
+          name: "test2",
+          id: "1",
+          children: [
+            { name: "test2_1", id: "2-1" },
+            { name: "test2_2", id: "2-1" },
+          ],
+        },
+      ];
+
+      $(document).ready(function () {
+        $("#treeDemo").ztreeSelect({ treeOption, treeData });
+        $("#treeDemo").on("change.ztreeSelect", function (e, submitValue, subNodes) {
+          console.log(submitValue, subNodes);
+        });
+      });
+    </script>
+  </body>
+</html>
