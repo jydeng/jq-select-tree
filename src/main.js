@@ -130,7 +130,7 @@ SelectTree.prototype.emit = function (slient) {
   }
 
   me.$showBtn.html(showLabel + ' <b class="fa fa-caret-down"></b>');
-  !!slient && me.$el.trigger("change.selectTree", [submitValue, subNodes]);
+  !!!slient && me.$el.trigger("change.selectTree", [submitValue, subNodes]);
 };
 
 SelectTree.prototype.setValue = function (val) {
