@@ -22,6 +22,9 @@ function SelectTree(option) {
   this.init();
 }
 
+/**
+ * 初始化
+ */
 SelectTree.prototype.init = function () {
   this.wrapEl();
   this.creatDropdownEl();
@@ -30,6 +33,9 @@ SelectTree.prototype.init = function () {
   this.inited = true;
 };
 
+/**
+ * 生成wrap DOM
+ */
 SelectTree.prototype.wrapEl = function () {
   const $showBtn = $(
     `<button type="button" class="btn btn-default" title="${this.option.placeholder}" aria-expanded="false">
@@ -42,6 +48,9 @@ SelectTree.prototype.wrapEl = function () {
   this.$el.after($showBtn);
 };
 
+/**
+ * 生成下拉DOM
+ */
 SelectTree.prototype.creatDropdownEl = function () {
   const treeId = this.getTreeElId();
   this.$dropdownEl = $(`<div class="zTree-select-dropdown-container"></div>`);
@@ -75,11 +84,17 @@ SelectTree.prototype.creatDropdownEl = function () {
   $("body").append(this.$dropdownEl);
 };
 
+/**
+ * 获取Tree DOM ID
+ */
 SelectTree.prototype.getTreeElId = function () {
   this.treeNo++;
   return "zTree-select" + this.treeNo;
 };
 
+/**
+ * 初始化ZTree
+ */
 SelectTree.prototype.initZTree = function () {
   let me = this;
   let option = me.option;
@@ -97,6 +112,9 @@ SelectTree.prototype.initZTree = function () {
   }
 };
 
+/**
+ * 初始化Ztree设置项
+ */
 SelectTree.prototype.initZTreeSetting = function () {
   let me = this;
   let option = me.option;
@@ -115,6 +133,9 @@ SelectTree.prototype.initZTreeSetting = function () {
   return setting;
 };
 
+/**
+ * 值发生改变，对外触发事件
+ */
 SelectTree.prototype.emit = function (slient) {
   let me = this;
   let checkedNodes = me.tree.getCheckedNodes(true);
@@ -133,11 +154,12 @@ SelectTree.prototype.emit = function (slient) {
   !!!slient && me.$el.trigger("change.selectTree", [submitValue, subNodes]);
 };
 
+/**
+ * 手动设置值
+ */
 SelectTree.prototype.setValue = function (val) {
   let me = this;
   let option = me.option;
-
-  console.log(val);
 
   if (option.treeOption.check.chkStyle === "checkbox") {
     let arr = Array.isArray(val) ? val : [val];
@@ -164,6 +186,9 @@ SelectTree.prototype.setValue = function (val) {
   me.emit();
 };
 
+/**
+ * 显示下拉框
+ */
 SelectTree.prototype.showDropdown = function () {
   let position = this.$showBtn.offset();
   let elH = this.$showBtn.outerHeight(true); // 计算input带边框的高度
@@ -176,10 +201,16 @@ SelectTree.prototype.showDropdown = function () {
   this.$dropdownEl.show();
 };
 
+/**
+ * 隐藏下拉框
+ */
 SelectTree.prototype.hideDropdown = function () {
   this.$dropdownEl.hide();
 };
 
+/**
+ * 时间初始化
+ */
 SelectTree.prototype.initEvent = function () {
   let me = this;
   let timer;
@@ -227,6 +258,9 @@ SelectTree.prototype.initEvent = function () {
   });
 };
 
+/**
+ * Ztree Node 过滤
+ */
 SelectTree.prototype.filterTree = function (keyword) {
   let me = this;
   let option = me.option;
@@ -248,6 +282,8 @@ SelectTree.prototype.filterTree = function (keyword) {
   }
 };
 
+// 绑定到jQuery
+// 调用方式 $("#treeDemo").selectTree(option) ...
 $.fn.selectTree = function (opt) {
   let res;
   this.each(function () {
@@ -260,6 +296,7 @@ $.fn.selectTree = function (opt) {
       }
     } else {
       let option = $.extend({ el: this }, opt);
+      // 绑定实例，方便后续访问
       $this.data("selectTree", new SelectTree(option));
     }
   });
