@@ -43,19 +43,3 @@ export function throttle(fn, interval = 200) {
     }
   };
 }
-
-/**
- * 获取ztree所有子节点
- */
-export function getAllChildNodes(treeNode, result) {
-  if (treeNode.isParent) {
-    var childrenNodes = treeNode.children;
-    if (childrenNodes) {
-      for (var i = 0; i < childrenNodes.length; i++) {
-        result += "," + childrenNodes[i].id;
-        result = getAllChildNodes(childrenNodes[i], result);
-      }
-    }
-  }
-  return result;
-}

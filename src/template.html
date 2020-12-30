@@ -17,34 +17,47 @@
     <script>
       // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
       // 初始化 √
-      // 默认赋值
-      // 赋值
+      // 赋值 √
       // 选中反馈 √
       // 过滤  √
       // 清空  √
-      // 全选
+      // 全选 √
       let treeOption = {
         check: {
           enable: true,
-          chkStyle: "checkbox",
+          chkStyle: "radio",
         },
         view: {
           showIcon: false,
+          selectedMulti: false,
+        },
+        callback: {
+          onCheck: function () {
+            console.log(arguments);
+          },
         },
       };
+
       // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
       let treeData = [
         {
           name: "test1",
           id: "1",
           children: [
-            { name: "test1_1", id: "1-1" },
+            {
+              name: "test1_1",
+              id: "1-1",
+              children: [
+                { name: "test1_1_1", id: "1-1-1", chkDisabled: true },
+                { name: "test1_1_2", id: "1-1-2" },
+              ],
+            },
             { name: "test1_2", id: "1-2" },
           ],
         },
         {
           name: "test2",
-          id: "1",
+          id: "2",
           children: [
             { name: "test2_1", id: "2-1" },
             { name: "test2_2", id: "2-1" },
@@ -53,10 +66,16 @@
       ];
 
       $(document).ready(function () {
-        $("#treeDemo").ztreeSelect({ treeOption, treeData });
-        $("#treeDemo").on("change.ztreeSelect", function (e, submitValue, subNodes) {
+        // 初始化
+        $("#treeDemo").selectTree({ treeOption, treeData, width: 200, placeholder: "请选择" });
+        
+        // 监听选择回调
+        $("#treeDemo").on("change.selectTree", function (e, submitValue, subNodes) {
           console.log(submitValue, subNodes);
         });
+
+        // 设置值
+        $("#treeDemo").data("selectTree").setValue(["1"]);
       });
     </script>
   </body>

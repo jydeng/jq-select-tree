@@ -119,78 +119,380 @@
   vertical-align: top;
 }
 .ztree li span.button.chk.checkbox_false_full::before {
-  content: "\f096";
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .ztree li span.button.chk.checkbox_false_full_focus::before {
-  content: "\f096";
-  /* color: #ff0; */
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .ztree li span.button.chk.checkbox_false_part::before {
-  content: "\f096";
-  color: #aaa;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .ztree li span.button.chk.checkbox_false_part_focus::before {
-  content: "\f096";
-  color: #cad96c;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .ztree li span.button.chk.checkbox_false_disable::before {
-  content: "\f096";
-  color: grey;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: not-allowed;
 }
 .ztree li span.button.chk.checkbox_true_full::before,
 .ztree li span.button.chk.checkbox_true_full_focus::before {
-  content: "\f046";
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
+
+.ztree li span.button.chk.checkbox_true_full::after,
+.ztree li span.button.chk.checkbox_true_full_focus::after {
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -2px;
+  color: #000;
+}
+
 .ztree li span.button.chk.checkbox_true_full_focus::before {
-  content: "\f046";
-  /* color: #ff0; */
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
+.ztree li span.button.chk.checkbox_true_full_focus::after {
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -2px;
+  color: #000;
+}
+
 .ztree li span.button.chk.checkbox_true_part::before {
-  content: "\f046";
-  color: #aaa;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
+
+.ztree li span.button.chk.checkbox_true_part::after {
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -2px;
+  color: #000;
+}
+
 .ztree li span.button.chk.checkbox_true_part_focus::before {
-  content: "\f046";
-  color: #cad96c;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
+
+.ztree li span.button.chk.checkbox_true_part_focus::after {
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -2px;
+  color: #000;
+}
+
 .ztree li span.button.chk.checkbox_true_disable::before {
-  content: "\f046";
-  color: grey;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: not-allowed;
 }
+
+.ztree li span.button.chk.checkbox_true_disable::after {
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -2px;
+  color: #000;
+  cursor: not-allowed;
+}
+
 .ztree li span.button.chk.radio_false_full::before {
-  content: "\f10c";
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .ztree li span.button.chk.radio_false_full_focus::before {
-  content: "\f10c";
-  /* color: #ff0; */
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .ztree li span.button.chk.radio_false_part::before {
-  content: "\f10c";
-  color: #aaa;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .ztree li span.button.chk.radio_false_part_focus::before {
-  content: "\f10c";
-  /* color: #ff0; */
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .ztree li span.button.chk.radio_false_disable::before {
-  content: "\f1db";
-  color: grey;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: not-allowed;
 }
+
 .ztree li span.button.chk.radio_true_full::before {
-  content: "\f192";
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
 }
+
+.ztree li span.button.chk.radio_true_full::after {
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -2px;
+  color: #000;
+}
+
 .ztree li span.button.chk.radio_true_full_focus::before {
-  content: "\f192";
-  /* color: #ff0; */
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
 }
+
+.ztree li span.button.chk.radio_true_full_focus::after {
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -2px;
+  color: #000;
+}
+
 .ztree li span.button.chk.radio_true_part::before,
 .ztree li span.button.chk.radio_true_part_focus::before {
-  content: "\f192";
-  color: #aaa;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
 }
+
+.ztree li span.button.chk.radio_true_part::after,
+.ztree li span.button.chk.radio_true_part_focus::after {
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -2px;
+  color: #000;
+}
+
 .ztree li span.button.chk.radio_true_disable::before {
-  content: "\f1db";
-  color: grey;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: -2px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: not-allowed;
 }
 .ztree li span.button.switch {
   width: 15px;

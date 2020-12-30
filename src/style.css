@@ -3,13 +3,53 @@
   margin-left: 2px;
 }
 
+.ztree li {
+  line-height: 34px;
+}
+
+.ztree li:hover {
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+
+.ztree li span.button.switch {
+  margin: 0 5px;
+}
+
+.ztree li span.button.switch,
+.ztree li span.button.chk {
+  vertical-align: middle !important;
+}
+
+.ztree li span.button.chk {
+  position: relative;
+  margin-right: 5px;
+}
+.ztree li span.button.chk::before {
+  font-size: 15px;
+}
+
 .ztree li a {
-  margin-bottom: 3px;
+  display: inline-block;
+  width: calc(100% - 50px);
+  padding-right: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle !important;
+}
+
+.ztree li a:hover {
+  text-decoration: none;
 }
 
 .ztree,
 .ztree * {
   background: white;
+}
+
+.ztree li span {
+  vertical-align: top;
 }
 
 .ztree,
@@ -19,18 +59,72 @@
 .ztree li span.button.ico_close::before,
 .ztree li span.button.ico_docu::before,
 span.tmpzTreeMove_arrow::before {
-  color: #444;
+  color: #262626;
 }
+
 .ztree li a.curSelectedNode {
-  background-color: white;
-  color: #444;
+  background-color: transparent;
+  color: #262626 !important;
 }
 
 .zTree-select-dropdown-container {
   position: absolute;
   display: none;
-  max-height: 300px;
+  max-height: 600px;
   overflow: hidden auto;
   z-index: 1000;
+  border-radius: 0;
   box-shadow: 0 0 3px rgba(86, 96, 117, 0.3);
+}
+
+.zTree-select-dropdown-container .search {
+  padding: 5px;
+}
+
+.zTree-select-dropdown-container .allCheck {
+  position: relative;
+  vertical-align: middle;
+  padding: 0 5px;
+  padding-left: 30px;
+  margin-top: 5px;
+}
+
+.zTree-select-dropdown-container .allCheck input {
+  display: none;
+}
+
+.zTree-select-dropdown-container .allCheck label {
+  margin-bottom: 0;
+}
+
+.zTree-select-dropdown-container .allCheck span {
+  user-select: none;
+}
+
+.zTree-select-dropdown-container .allCheck span:before {
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  left: 10px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.zTree-select-dropdown-container .allCheck input:checked + span:after {
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  color: #000;
 }

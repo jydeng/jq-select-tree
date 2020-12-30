@@ -1,30 +1,20 @@
 import "./ztree.awesomeStyle.css";
 import "./style.css";
-import { debounce, getAllChildNodes } from "./utils.js";
+import { debounce } from "./utils.js";
 import $ from "jQuery";
 
 /**
  * 基于ztree的tree select
  * @authors jydeng (jydeng@live.cn)
  */
-function TreeSelect(option) {
+function SelectTree(option) {
   let def = {
     label: "name",
     value: "id",
     separator: "/",
-    treeOption: {
-      callback: {
-        onCheck: () => {
-          let checkedNodes = this.tree.getCheckedNodes(true);
-          let subNodes = checkedNodes.filter((t) => !!!t.children);
-          let submitValue = subNodes.map((t) => t[this.option.label]).join(",");
-          let showLabel =
-            subNodes.length === 0 ? "请输入" : subNodes.length <= 3 ? submitValue : `${subNodes.length} selected`;
-          this.$showBtn.html(showLabel + ' <b class="fa fa-caret-down"></b>');
-          this.$el.trigger("change.ztreeSelect", [submitValue, subNodes]);
-        },
-      },
-    },
+    width: 300,
+    placeholder: "请选择",
+    treeOption: {},
   };
   this.$el = $(option.el);
   this.option = $.extend(true, def, option);
@@ -32,18 +22,17 @@ function TreeSelect(option) {
   this.init();
 }
 
-TreeSelect.prototype.init = function () {
+SelectTree.prototype.init = function () {
   this.wrapEl();
   this.creatDropdownEl();
   this.initZTree();
   this.initEvent();
-  // this.initValue();
   this.inited = true;
 };
 
-TreeSelect.prototype.wrapEl = function () {
+SelectTree.prototype.wrapEl = function () {
   const $showBtn = $(
-    `<button type="button" class="btn btn-default" title="请选择" aria-expanded="false">
+    `<button type="button" class="btn btn-default" title="${this.option.placeholder}" aria-expanded="false">
       请选择 <b class="fa fa-caret-down"></b>
     </button>`
   );
@@ -53,11 +42,11 @@ TreeSelect.prototype.wrapEl = function () {
   this.$el.after($showBtn);
 };
 
-TreeSelect.prototype.creatDropdownEl = function () {
+SelectTree.prototype.creatDropdownEl = function () {
   const treeId = this.getTreeElId();
   this.$dropdownEl = $(`<div class="zTree-select-dropdown-container"></div>`);
   this.$searchEl = $(
-    `<div class="input-group">
+    `<div class="input-group search">
       <span class="input-group-addon">
         <i class="glyphicon glyphicon-search"></i>
       </span>
@@ -74,16 +63,24 @@ TreeSelect.prototype.creatDropdownEl = function () {
   this.$searchInput = this.$searchEl.find("input");
   this.$searchClear = this.$searchEl.find(".btn");
   this.$dropdownEl.append(this.$searchEl);
+
+  if (this.option.treeOption.check.chkStyle === "checkbox") {
+    this.$allCheckEl = $(`<div class="allCheck"><label><input type="checkbox" /><span>全选</span></label></div>`);
+    this.$allChecked = this.$allCheckEl.find("input");
+    this.$dropdownEl.append(this.$allCheckEl);
+  }
+
   this.$dropdownEl.append(this.$treeEl);
+
   $("body").append(this.$dropdownEl);
 };
 
-TreeSelect.prototype.getTreeElId = function () {
+SelectTree.prototype.getTreeElId = function () {
   this.treeNo++;
   return "zTree-select" + this.treeNo;
 };
 
-TreeSelect.prototype.initZTree = function () {
+SelectTree.prototype.initZTree = function () {
   let me = this;
   let option = me.option;
   let setting = option.treeOption;
@@ -93,67 +90,97 @@ TreeSelect.prototype.initZTree = function () {
 
   me.tree = tree;
   me.hideNodes = [];
-  me.nodeLength = tree.transformToArray(tree.getNodes()).filter((t) => !!!t.children).length;
+  me.nodeLength = tree.transformToArray(tree.getNodes()).filter((t) => !!!t.children && !!!t.chkDisabled).length;
 
   if (setting.onTreeInited) {
     setting.onTreeInited.call(this, tree);
   }
 };
 
-TreeSelect.prototype.initZTreeSetting = function () {
+SelectTree.prototype.initZTreeSetting = function () {
   let me = this;
   let option = me.option;
   let setting = $.extend({}, option.treeOption);
   let callback = setting.callback;
 
+  if (callback.onCheck && typeof callback.onCheck === "function") {
+    let fn = callback.onCheck;
+    callback.onCheck = function () {
+      me.emit();
+      fn.apply(me, arguments);
+    };
+  }
   setting.callback = $.extend({}, callback, {});
 
   return setting;
 };
 
-TreeSelect.prototype.setValue = function (treeNode) {
+SelectTree.prototype.emit = function (slient) {
   let me = this;
-  let option = me.option;
-  let showProp = option.label;
-  let valueProp = option.value;
-  let separator = option.separator;
-  let path = (treeNode && treeNode.getPath && treeNode.getPath()) || [];
-  let showValue = [];
-  let submitValue = (treeNode && treeNode[valueProp]) || "";
+  let checkedNodes = me.tree.getCheckedNodes(true);
+  let subNodes = checkedNodes.filter((t) => !!!t.children);
+  let submitValue = subNodes.map((t) => t[me.option.label]).join(",");
+  let showLabel = subNodes.length === 0 ? "请输入" : subNodes.length <= 3 ? submitValue : `${subNodes.length} selected`;
 
-  $.each(path, function (index, item) {
-    showValue.push(item[showProp]);
-  });
-
-  me.$showInput.val(showValue.join(separator));
-
-  // 不是初始化完成前调用setValue，不触发事件；
-  if (!me.inited || me.oldSubmitValue == submitValue) {
-    return;
+  if (me.option.treeOption.check.chkStyle === "checkbox") {
+    me.$allChecked.prop("checked", subNodes.length === me.nodeLength);
+    if (subNodes.length === me.nodeLength) {
+      showLabel = "全选";
+    }
   }
 
-  me.oldSubmitValue = submitValue;
-  me.$el.val(submitValue);
-  me.$el.trigger("change.ztreeSelect", [submitValue, treeNode]);
+  me.$showBtn.html(showLabel + ' <b class="fa fa-caret-down"></b>');
+  !!slient && me.$el.trigger("change.selectTree", [submitValue, subNodes]);
 };
 
-TreeSelect.prototype.showDropdown = function () {
+SelectTree.prototype.setValue = function (val) {
+  let me = this;
+  let option = me.option;
+
+  console.log(val);
+
+  if (option.treeOption.check.chkStyle === "checkbox") {
+    let arr = Array.isArray(val) ? val : [val];
+    let nodes = me.tree.getNodesByFilter(function (node) {
+      return arr.indexOf(node[option.value]) > -1;
+    });
+
+    nodes.forEach((node) => {
+      me.tree.checkNode(node, true, false);
+    });
+  } else {
+    let v = Array.isArray(val) ? val[0] : val;
+    let nodes = me.tree.getNodesByFilter(function (node) {
+      return node[option.value] === v;
+    });
+
+    console.log(nodes);
+
+    nodes.forEach((node) => {
+      me.tree.checkNode(node, true, true, false);
+    });
+  }
+
+  me.emit();
+};
+
+SelectTree.prototype.showDropdown = function () {
   let position = this.$showBtn.offset();
   let elH = this.$showBtn.outerHeight(true); // 计算input带边框的高度
 
   this.$dropdownEl.css({
     left: position.left,
-    top: position.top + elH + 5,
-    width: 300,
+    top: position.top + elH,
+    width: this.option.width,
   });
   this.$dropdownEl.show();
 };
 
-TreeSelect.prototype.hideDropdown = function () {
+SelectTree.prototype.hideDropdown = function () {
   this.$dropdownEl.hide();
 };
 
-TreeSelect.prototype.initEvent = function () {
+SelectTree.prototype.initEvent = function () {
   let me = this;
   let timer;
 
@@ -178,6 +205,13 @@ TreeSelect.prototype.initEvent = function () {
     me.filterTree("");
   });
 
+  if (me.option.treeOption.check.chkStyle === "checkbox") {
+    me.$allChecked.on("change", function () {
+      me.tree.checkAllNodes(this.checked);
+      me.emit();
+    });
+  }
+
   $(document).on("click", function (event) {
     let target = event.target;
     let reg = new RegExp("^" + me.treeId + "_");
@@ -193,12 +227,7 @@ TreeSelect.prototype.initEvent = function () {
   });
 };
 
-TreeSelect.prototype.clearValue = function () {
-  this.setValue({});
-  this.tree.cancelSelectedNode();
-};
-
-TreeSelect.prototype.filterTree = function (keyword) {
+SelectTree.prototype.filterTree = function (keyword) {
   let me = this;
   let option = me.option;
   let hideNodes = me.hideNodes;
@@ -219,11 +248,11 @@ TreeSelect.prototype.filterTree = function (keyword) {
   }
 };
 
-$.fn.ztreeSelect = function (opt) {
+$.fn.selectTree = function (opt) {
   let res;
   this.each(function () {
     let $this = $(this);
-    let treeSelect = $this.data("ztreeSelect");
+    let treeSelect = $this.data("selectTree");
     if (treeSelect) {
       res = treeSelect[opt]();
       if (res !== undefined) {
@@ -231,7 +260,7 @@ $.fn.ztreeSelect = function (opt) {
       }
     } else {
       let option = $.extend({ el: this }, opt);
-      $this.data("ztreeSelect", new TreeSelect(option));
+      $this.data("selectTree", new SelectTree(option));
     }
   });
   if (res !== undefined) {
