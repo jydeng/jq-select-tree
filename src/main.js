@@ -144,7 +144,11 @@ class SelectTree {
     let subNodes = checkedNodes.filter((t) => !!!t.children);
     let submitValue = subNodes.map((t) => t[me.option.label]).join(",");
     let showLabel =
-      subNodes.length === 0 ? "请输入" : subNodes.length <= 3 ? submitValue : `${subNodes.length} selected`;
+      subNodes.length === 0
+        ? me.option.placeholder
+        : subNodes.length <= 3
+        ? submitValue
+        : `${subNodes.length} selected`;
 
     if (me.option.treeOption.check.chkStyle === "checkbox") {
       me.$allChecked.prop("checked", subNodes.length === me.nodeLength);
