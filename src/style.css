@@ -128,3 +128,14 @@ span.tmpzTreeMove_arrow::before {
   left: 10px;
   color: #000;
 }
+.zTree-select-dropdown-container::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+.zTree-select-dropdown-container::-webkit-scrollbar-thumb {
+  background: #999;
+}
+.zTree-select-dropdown-container::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: #f5f5f5;
+}
