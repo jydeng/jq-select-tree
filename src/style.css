@@ -74,6 +74,7 @@ span.tmpzTreeMove_arrow::before {
   overflow: hidden auto;
   z-index: 1000;
   border-radius: 0;
+  background: white;
   box-shadow: 0 0 3px rgba(86, 96, 117, 0.3);
 }
 

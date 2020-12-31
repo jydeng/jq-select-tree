@@ -6,10 +6,43 @@
     <title>jq-select-tree</title>
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      #title {
+        text-align: center;
+        margin: 200px 0 50px 0;
+      }
+
+      .demo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+      }
+
+      .demo span {
+        display: block;
+        margin-left: 30px;
+      }
+    </style>
   </head>
   <body>
-    <ul id="treeDemo" class="ztree"></ul>
-
+    <div id="title">
+      <h3>jq-select-tree</h3>
+    </div>
+    <div class="demo">
+      <span>多选：</span>
+      <ul id="treeDemo" class="ztree"></ul>
+      <span>单选：</span>
+      <ul id="treeDemo2" class="ztree"></ul>
+    </div>
+    <div class="demo">
+      <span>手动赋值：</span>
+      <button id="setVal">do it!</button>
+    </div>
+    <div class="demo">
+      <span>结果：</span>
+      <textarea name="" id="result" cols="30" rows="10" readonly></textarea>
+    </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/zTree.v3/3.5.42/js/jquery.ztree.all.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/zTree.v3/3.5.42/js/jquery.ztree.exhide.min.js"></script>
@@ -65,16 +98,36 @@
         },
       ];
 
+      let treeOption2 = {
+        check: {
+          enable: true,
+          chkStyle: "radio",
+        },
+        view: {
+          showIcon: false,
+          selectedMulti: false,
+        },
+        callback: {
+          onCheck: function () {
+            console.log(arguments);
+          },
+        },
+      };
+
       $(document).ready(function () {
         // 初始化
         $("#treeDemo").selectTree({ treeOption, treeData, width: 200, placeholder: "请选择" });
-        
+
         // 监听选择回调
         $("#treeDemo").on("change.selectTree", function (e, submitValue, subNodes) {
-          console.log(submitValue, subNodes);
+          $("#result").val(JSON.stringify(subNodes));
         });
 
-        // 设置值
+        // 初始化
+        $("#treeDemo2").selectTree({ treeOption: treeOption2, treeData, width: 200, placeholder: "请选择" });
+      });
+
+      $("#setVal").on("click", function () {
         $("#treeDemo").data("selectTree").setValue(["2-1"]);
       });
     </script>

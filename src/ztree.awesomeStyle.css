@@ -505,7 +505,7 @@
   display: inline-block;
 }
 .ztree li span.button.root_close::before {
-  content: "\f115";
+  content: "";
   padding-top: 10px;
   padding-left: 2px;
   display: inline-block;
@@ -560,7 +560,7 @@
   color: #fff;
 }
 .ztree li span.button.ico_open::before {
-  content: "\f115";
+  content: "";
   font-family: FontAwesome;
   padding-top: 10px;
   padding-left: 2px;
