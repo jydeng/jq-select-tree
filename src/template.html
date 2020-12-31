@@ -9,7 +9,6 @@
   </head>
   <body>
     <ul id="treeDemo" class="ztree"></ul>
-    <ul id="treeDemo2" class="ztree"></ul>
 
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/zTree.v3/3.5.42/js/jquery.ztree.all.min.js"></script>
@@ -76,10 +75,7 @@
         });
 
         // 设置值
-        $("#treeDemo").data("selectTree").setValue(["1"]);
-
-         // 初始化2
-         $("#treeDemo2").selectTree({ treeOption, treeData, width: 200, placeholder: "请选择" });
+        $("#treeDemo").data("selectTree").setValue(["2-1"]);
       });
     </script>
   </body>
