@@ -13,7 +13,7 @@
 - bootstrap
 
 ## 使用方法
-```
+```javascript
 $(document).ready(function () {
     // 初始化
     $("#treeDemo").selectTree({ treeOption, treeData, width: 200, placeholder: "请选择" });
@@ -25,9 +25,6 @@ $(document).ready(function () {
 
     // 设置值
     $("#treeDemo").data("selectTree").setValue(["1"]);
-
-        // 初始化2
-    });
 }
 ```
 * 下载、构建后，详见/dist/index.html
