@@ -20,7 +20,7 @@ class SelectTree {
 
     this.$el = $(option.el);
     this.option = $.extend(true, def, option);
-    this.treeNo = 0;
+    this.treeNo = $('.zTree-select-wrapper').length;
     this.init();
   }
 
