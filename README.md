@@ -9,12 +9,56 @@
 ## 依赖
 
 - jQuery
-- ztree
+- zTree
 - fontAwesome
 - bootstrap
 
 ## 使用方法
 ```javascript
+// 沿用zTree Option
+let treeOption = {
+        check: {
+          enable: true,
+          chkStyle: "checkbox",
+        },
+        view: {
+          showIcon: false,
+          selectedMulti: false,
+        },
+        callback: {
+          onCheck: function () {
+            console.log(arguments);
+          },
+        },
+      };
+// zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
+let treeData = [
+{
+    name: "test1",
+    id: "1",
+    children: [
+        {
+          name: "test1_1",
+          id: "1-1",
+          children: [
+              { name: "test1_1_1", id: "1-1-1", chkDisabled: true },
+              { name: "test1_1_2", id: "1-1-2" },
+              ],
+          },
+          { name: "test1_2", id: "1-2" },
+          ],
+       },
+     {
+        name: "test2",
+        id: "2",
+        children: [
+          { name: "test2_1", id: "2-1" },
+          { name: "test2_2", id: "2-1" },
+        ],
+      },
+    ];
+      
+      
 $(document).ready(function () {
     // 初始化
     $("#treeDemo").selectTree({ treeOption, treeData, width: 200, placeholder: "请选择" });
