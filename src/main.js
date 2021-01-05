@@ -20,7 +20,7 @@ class SelectTree {
 
     this.$el = $(option.el);
     this.option = $.extend(true, def, option);
-    this.treeNo = $('.zTree-select-wrapper').length;
+    this.treeNo = $(".zTree-select-wrapper").length;
     this.init();
   }
 
@@ -273,6 +273,30 @@ class SelectTree {
     let option = me.option;
     let hideNodes = me.hideNodes;
     let tree = me.tree;
+    let showNodes = [];
+    let childArray = [];
+
+    function filterFunc(node) {
+      if (node.isParent || node[option.label].indexOf(keyword) !== -1) {
+        showNodes.push(node);
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    function getChildrenNode(treeNode) {
+      let thisIsParent = treeNode.isParent; // 获取目标节点 isParent 属性，判断是否为父节点
+      if (thisIsParent == true) {
+        let thisChildrenNode = treeNode.children; // 得到该节点的子节点集合
+        for (let i = 0; i < thisChildrenNode.length; i++) {
+          childArray.push(thisChildrenNode[i]); // 将该子节点加入数组中
+          getChildrenNode(thisChildrenNode[i]); // 重调
+        }
+      } else {
+        return false;
+      }
+    }
 
     if (hideNodes.length > 0) {
       tree.showNodes(hideNodes);
@@ -280,12 +304,23 @@ class SelectTree {
     }
 
     if (String(keyword).length > 0) {
-      let filterNodes = tree.getNodesByFilter(function (node) {
-        return node[option.label].indexOf(keyword) === -1;
-      });
+      let filterNodes = tree.getNodesByFilter(filterFunc);
+
+      showNodes
+        .filter((t) => t.isParent)
+        .forEach((node) => {
+          childArray = [];
+
+          getChildrenNode(node);
+
+          if (childArray.filter((t) => t[option.label].indexOf(keyword) !== -1).length === 0) {
+            filterNodes.push(node);
+          }
+        });
 
       me.hideNodes = filterNodes;
       tree.hideNodes(filterNodes);
+      tree.expandAll(true);
     }
   }
 }
