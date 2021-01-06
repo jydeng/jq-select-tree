@@ -271,56 +271,45 @@ class SelectTree {
   filterTree(keyword) {
     let me = this;
     let option = me.option;
-    let hideNodes = me.hideNodes;
     let tree = me.tree;
     let showNodes = [];
-    let childArray = [];
+    let parentNodes = new Map();
 
+    //查找匹配的节点
     function filterFunc(node) {
-      if (node.isParent || node[option.label].indexOf(keyword) !== -1) {
-        showNodes.push(node);
-        return false;
-      } else {
+      if (node[option.label].indexOf(keyword) !== -1) {
         return true;
-      }
-    }
-
-    function getChildrenNode(treeNode) {
-      let thisIsParent = treeNode.isParent; // 获取目标节点 isParent 属性，判断是否为父节点
-      if (thisIsParent == true) {
-        let thisChildrenNode = treeNode.children; // 得到该节点的子节点集合
-        for (let i = 0; i < thisChildrenNode.length; i++) {
-          childArray.push(thisChildrenNode[i]); // 将该子节点加入数组中
-          getChildrenNode(thisChildrenNode[i]); // 重调
-        }
       } else {
         return false;
       }
     }
 
-    if (hideNodes.length > 0) {
-      tree.showNodes(hideNodes);
-      me.hideNodes = [];
+    // 查找父级
+    function findParent(tree, node, showNodes) {
+      tree.expandNode(node, true, false, false);
+      var pNode = node.getParentNode();
+      if (pNode != null) {
+        //如果有则不加,节约时间
+        if (parentNodes.get(pNode.tId) == null) {
+          parentNodes.set(pNode.tId, pNode);
+          showNodes.push(pNode);
+          findParent(tree, pNode, showNodes);
+        }
+      }
     }
 
     if (String(keyword).length > 0) {
-      let filterNodes = tree.getNodesByFilter(filterFunc);
-
-      showNodes
-        .filter((t) => t.isParent)
-        .forEach((node) => {
-          childArray = [];
-
-          getChildrenNode(node);
-
-          if (childArray.filter((t) => t[option.label].indexOf(keyword) !== -1).length === 0) {
-            filterNodes.push(node);
-          }
-        });
-
-      me.hideNodes = filterNodes;
-      tree.hideNodes(filterNodes);
-      tree.expandAll(true);
+      tree.hideNodes(tree.getNodesByParam("isHidden", false));
+      showNodes = tree.getNodesByFilter(filterFunc);
+      showNodes = tree.transformToArray(showNodes);
+      for (let node in showNodes) {
+        if (showNodes.hasOwnProperty(node)) {
+          findParent(tree, showNodes[node], showNodes);
+        }
+      }
+      tree.showNodes(showNodes);
+    } else {
+      tree.showNodes(tree.getNodesByParam("isHidden", true));
     }
   }
 }
