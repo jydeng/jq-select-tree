@@ -140,7 +140,9 @@ class SelectTree {
    */
   emit(slient) {
     let me = this;
-    let checkedNodes = me.tree.getCheckedNodes(true);
+    let checkedNodes = me.tree.getNodesByFilter(function (node) {
+      return node.checked == true;
+    });
     let subNodes = checkedNodes.filter((t) => !!!t.children);
     let submitValue = subNodes.map((t) => t[me.option.label]).join(",");
     let showLabel =
@@ -182,8 +184,6 @@ class SelectTree {
       let nodes = me.tree.getNodesByFilter(function (node) {
         return node[option.value] === v;
       });
-
-      console.log(nodes);
 
       nodes.forEach((node) => {
         me.tree.checkNode(node, true, true, false);
