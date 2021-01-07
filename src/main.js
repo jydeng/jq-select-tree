@@ -325,6 +325,7 @@ class SelectTree {
     }
 
     me.checkAllChecked();
+    me.emit();
   }
 }
 
