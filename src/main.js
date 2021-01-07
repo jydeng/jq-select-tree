@@ -153,14 +153,26 @@ class SelectTree {
         : `${subNodes.length} selected`;
 
     if (me.option.treeOption.check.chkStyle === "checkbox") {
-      me.$allChecked.prop("checked", subNodes.length === me.nodeLength);
-      if (subNodes.length === me.nodeLength) {
+      if (me.checkAllChecked()) {
         showLabel = "全选";
       }
     }
 
     me.$showBtn.html(showLabel + ' <b class="fa fa-caret-down"></b>');
     !!!slient && me.$el.trigger("change.selectTree", [submitValue, subNodes]);
+  }
+
+  /**
+   * 检测全选状态
+   */
+  checkAllChecked() {
+    let me = this;
+    let allNodes = me.tree.getNodesByParam("isHidden", false).filter((t) => !t.chkDisabled);
+    let checkedNodes = me.tree.getCheckedNodes(true);
+    let res = allNodes.length === 0 ? false : allNodes.length === checkedNodes.length;
+    me.$allChecked.prop("checked", res);
+    me.$allChecked.prop("disabled", allNodes.length === 0);
+    return res;
   }
 
   /**
@@ -311,6 +323,8 @@ class SelectTree {
     } else {
       tree.showNodes(tree.getNodesByParam("isHidden", true));
     }
+
+    me.checkAllChecked();
   }
 }
 

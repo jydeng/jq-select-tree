@@ -129,6 +129,10 @@ span.tmpzTreeMove_arrow::before {
   left: 10px;
   color: #000;
 }
+.zTree-select-dropdown-container .allCheck input:disabled + span:before {
+  cursor: not-allowed;
+}
+
 .zTree-select-dropdown-container::-webkit-scrollbar-track {
   background: #f5f5f5;
 }
