@@ -153,7 +153,8 @@ class SelectTree {
         : `${subNodes.length} selected`;
 
     if (me.option.treeOption.check.chkStyle === "checkbox") {
-      if (me.checkAllChecked()) {
+      me.checkAllChecked();
+      if (subNodes.length === me.nodeLength) {
         showLabel = "全选";
       }
     }
@@ -324,7 +325,9 @@ class SelectTree {
       tree.showNodes(tree.getNodesByParam("isHidden", true));
     }
 
-    me.checkAllChecked();
+    if (me.option.treeOption.check.chkStyle === "checkbox") {
+      me.checkAllChecked();
+    }
     me.emit();
   }
 }

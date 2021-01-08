@@ -93,7 +93,7 @@
           id: "2",
           children: [
             { name: "test2_1", id: "2-1" },
-            { name: "test2_2", id: "2-1" },
+            { name: "test2_2", id: "2-2" },
           ],
         },
       ];
@@ -121,6 +121,7 @@
         // 监听选择回调
         $("#treeDemo").on("change.selectTree", function (e, submitValue, subNodes) {
           $("#result").val(JSON.stringify(subNodes));
+          console.log(subNodes.map((t) => t.id));
         });
 
         // 初始化
